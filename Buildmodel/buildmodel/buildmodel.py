@@ -81,13 +81,8 @@ pred_probab=softmax(logits)
 # 模型参数
 # 神经网络内的许多层都是参数化的，即具有在训练期间优化的相关权重和偏差。
 # 子类nn.Module化会自动跟踪模型对象中定义的所有字段，并使用模型parameters()或named_parameters()方法使所有参数都可以访问。
+# 遍历每个参数，并打印其大小和其值的预览。
+print(f"Model structre:{model}\n\n")
+for name,param in model.named_parameters():
+    print(f"Layer:{name} | Size:{param.size()} | Values:{param[:2]} \n")
 
-print(f"Model structure: {model}\n\n")
-
-for name, param in model.named_parameters():
-    print(f"Layer: {name} | Size: {param.size()} | Values : {param[:2]} \n")
-
-# print(f"Model structre:{model}\n\n")
-# for name,param in model.named_parameters():
-#     param(f"Layer:{name} | Size:{param.size()} | Values:{param[:2]} \n")
-#
