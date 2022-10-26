@@ -12,7 +12,7 @@ import math
 import torch.cuda
 import copy
 import time
-from DataSet import vocab, bptt, train_data, get_batch
+from DataSet import vocab, bptt, train_data, get_batch, val_data, test_data
 import TransformerModel
 from torch import nn, Tensor
 from torch.nn.utils import clip_grad_norm_
@@ -88,5 +88,29 @@ def evalute(model: nn.Module, eval_data: Tensor) -> Tensor:
 
 # 循环遍历时代。如果验证损失是我们迄今为止看到的最好的，则保存模型。在每个 epoch 后调整学习率。
 best_val_loss = float('inf')
-epoch = 3
+epochs = 3
 best_model = None
+
+for epoch in range(1,epochs+1):
+    epoch_start_time=time.time()
+    train(model)
+    val_loss=evalute(model,val_data)
+    val_ppl=math.exp(val_loss)
+    elapsed=time.time()-epoch_start_time
+    print('-'*89)
+    print(f'| end of epoch {epoch:3d} | time: {elapsed:5.2f}s | '
+          f'valid loss {val_loss:5.2f} | valid ppl {val_ppl:8.2f}')
+    print('-' * 89)
+
+    if val_loss<best_val_loss:
+        best_val_loss=val_loss
+        best_model=copy.deepcopy(model)
+    scheduler.step()
+
+# Evaluate the best model on the test dataset
+test_loss=evalute(best_model,test_data)
+test_ppl=math.exp(test_loss)
+print('=' * 89)
+print(f'| End of training | test loss {test_loss:5.2f} | '
+      f'test ppl {test_ppl:8.2f}')
+print('=' * 89)
