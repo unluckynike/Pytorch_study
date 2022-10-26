@@ -75,7 +75,7 @@ def evalute(model: nn.Module, eval_data: Tensor) -> Tensor:
     total_loss = 0
     src_mask = model.generate_square_subsequent_mask(bptt).to(device)
     with torch.no_grad():
-        for i in range(0, eval_data.size(0) - 1, bptt)
+        for i in range(0, eval_data.size(0) - 1, bptt):
             data, targets = get_batch(eval_data, i)
             seq_len = data.size(0)
             if seq_len != bptt:
