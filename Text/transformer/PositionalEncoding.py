@@ -4,6 +4,7 @@
 @Author  ：hailin
 @Date    ：2022/10/26 14:46 
 @Info    : https://pytorch.org/tutorials/beginner/transformer_tutorial.html
+           Define the model
 '''
 import math
 

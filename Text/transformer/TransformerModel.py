@@ -4,10 +4,10 @@
 @Author  ：hailin
 @Date    ：2022/10/26 11:06 
 @Info    : https://pytorch.org/tutorials/beginner/transformer_tutorial.html
+           Define the model
 '''
 
 import math
-from typing import Tuple
 import torch
 import torch.nn.functional as F
 from torch import nn, Tensor
