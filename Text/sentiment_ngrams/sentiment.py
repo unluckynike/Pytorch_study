@@ -186,3 +186,51 @@ for epoch in range(1, EPOCHS + 1):
 print('Checking the results of test dataset.')
 accu_test = evaluate(test_dataloader)
 print('test accuracy {:8.3f}'.format(accu_test))
+
+
+# 测试随机新闻
+ag_news_label={
+    1:"World",
+    2:"Sport",
+    3:"Bussiness",
+    4:"Sci/Tec"
+}
+
+def predict(text,text_pipeline):
+    with torch.no_grad():
+        text=torch.tensor(text_pipeline(text))
+        output=model(text,torch.tensor([0]))
+        return output.argmax(1).item()+1
+
+# ex_text_str = "MEMPHIS, Tenn. – Four days ago, Jon Rahm was \
+#     enduring the season’s worst weather conditions on Sunday at The \
+#     Open on his way to a closing 75 at Royal Portrush, which \
+#     considering the wind and the rain was a respectable showing. \
+#     Thursday’s first round at the WGC-FedEx St. Jude Invitational \
+#     was another story. With temperatures in the mid-80s and hardly any \
+#     wind, the Spaniard was 13 strokes better in a flawless round. \
+#     Thanks to his best putting performance on the PGA Tour, Rahm \
+#     finished with an 8-under 62 for a three-stroke lead, which \
+#     was even more impressive considering he’d never played the \
+#     front nine at TPC Southwind."
+
+ex_text_str="Dialogue systems, also called chatbots, are now used in a wide range of applications." \
+            " However, they still have some major weaknesses. One key weakness is that they are typi- cally trained " \
+            "from manually-labeled data and/or written with handcrafted rules, and their knowledge bases (KBs) are" \
+            " also compiled by human experts. Due to the huge amount of man- ual effort involved, they are difficult to" \
+            " scale and also tend to produce many errors ought to their limited ability to un- derstand natural language and" \
+            " the limited knowledge in their KBs. Thus, the level of user satisfactory is often low. In this paper, we propose " \
+            "to dramatically improve the situation by endowing the chatbots the ability to continually learn (1) new world knowledge, " \
+            "(2) new language expressions to ground them to actions, and (3) new conversational skills, during con- versation by " \
+            "themselves so that as they chat more and more with users, they become more and more knowledgeable and are better and " \
+            "better able to understand diverse natural lan- guage expressions and to improve their conversational skills."
+
+
+model=model.to('cpu')
+print("This is a %s new "%ag_news_label[predict(ex_text_str,text_pipline)])
+
+
+
+
+
+
