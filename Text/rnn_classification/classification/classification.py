@@ -115,5 +115,44 @@ hidden=torch.zeros(1,n_hidden)
 
 output,next_hidden=rnn(input[0],hidden)
 # 输出是一个张量，其中每个都是该类别的可能性（越高越有可能）
-print(output)
+print(output) # 对应的是18个txt类别
+
+# 准备训练
+# 在开始训练之前，我们应该创建一些辅助函数。首先是解释网络的输出，我们知道这是每个类别的可能性。可以使用Tensor.topk获取最大值的索引：
+def categoryFromOutput(output):
+    top_n,top_i=output.topk(1)
+    category_i=top_i[0].item()
+    return all_categories[category_i],category_i
+
+print(categoryFromOutput(output))
+
+# 还需要一种快速获取训练示例（名称及其语言）的方法：
+import random
+
+def randomChoice(l):
+    return l[random.randint(0,len(l)-1)]
+
+def randomTrainingExample():
+    category=randomChoice(all_categories)
+    line=randomChoice(category_lines[category])
+    category_tensor=torch.tensor([all_categories.index(category)],dtype=torch.long)
+    line_tensor=lineToTensor(line)
+    return category,line,category_tensor,line_tensor
+
+for i in range(10):
+    category,line,category_tensor,line_tensor=randomTrainingExample()
+    print('categoty｜分类 = ',category,'        line｜名字 =',line)
+
+# 训练网络
+
+
+
+
+
+
+
+
+
+
+
 
