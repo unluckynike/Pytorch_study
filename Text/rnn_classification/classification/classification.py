@@ -189,5 +189,48 @@ def train(category_tensor, line_tensor):
 
     return output, loss.item()
 
+
 # 现在我们只需要用一些例子来运行它。由于该 train函数同时返回输出和损失，我们可以打印它的猜测并跟踪损失以进行绘图。
 # 由于有 1000 个示例，我们只打印每个print_every示例，并取损失的平均值。
+
+import time
+import math
+
+n_iters = 1000000
+print_every = 5000
+plot_every = 1000
+
+current_loss = 0
+all_losses = []
+
+
+def timeSince(since):
+    now = time.time()
+    s = now - since
+    m = math.floor(s / 60)
+    s -= m * 60
+    return '%dm %ds' % (m, s)
+
+
+start = time.time()
+
+for iter in range(1, n_iters + 1):
+    category, line, category_tensor, line_tensor = randomTrainingExample()
+    output, loss = train(category_tensor, line_tensor)
+    current_loss += loss
+    # 打印 iter number loss name guess
+    if iter % print_every == 0:
+        guess, guess_i = categoryFromOutput(output)
+        correct = '✓' if guess == category else '✗ (%s)' % category
+        print(
+            '%d %d%% (%s) %.4f %s / %s %s' % (iter, iter / n_iters * 100, timeSince(start), loss, line, guess, correct))
+
+        if iter % plot_every == 0:
+            all_losses.append(current_loss / plot_every)
+            current_loss = 0
+
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+
+plt.figure()
+plt.plot(all_losses)
