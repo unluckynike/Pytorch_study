@@ -11,7 +11,11 @@ from __future__ import unicode_literals, print_function, division
 from io import open
 import glob
 import os
+import torch
 
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print("device:",device)
 
 def findFiles(path):
     return glob.glob(path)
@@ -109,7 +113,7 @@ class RNN(nn.Module):
 
 
 n_hidden = 128
-rnn = RNN(n_letters, n_hidden, n_categories)
+rnn = RNN(n_letters, n_hidden, n_categories).to(device)
 
 # 传递一个输入（在我们的例子中，当前字母的张量）和一个先前的隐藏状态（我们首先将其初始化为零）。
 # 我们将取回输出（每种语言的概率）和下一个隐藏状态（我们为下一步保留）。
