@@ -84,7 +84,7 @@ print(f"Using {device} device")
 class NeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()
-        self.flatten = nn.Flatten()
+        self.flatten = nn.Flatten()# 压平 到 一维
         self.linear_relu_stack = nn.Sequential(
             nn.Linear(28 * 28, 512),
             nn.ReLU(),
@@ -103,7 +103,7 @@ model = NeuralNetwork().to(device)
 print(model)
 
 # 损失函数 优化模型参数
-loss_fn = nn.CrossEntropyLoss()
+loss_fn = nn.CrossEntropyLoss()# 交叉熵损失
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
 
 

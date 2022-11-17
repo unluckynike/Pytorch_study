@@ -10,7 +10,7 @@
       <list>
         <option value="$MODULE_DIR$/Text/sentiment_ngrams" />
         <option value="$MODULE_DIR$/Text/transformer" />
-        <option value="$MODULE_DIR$/Text/Transforms/Transforms" />
+        <option value="$MODULE_DIR$/Transforms/Transforms" />
         <option value="$MODULE_DIR$/Text/rnn_classification/classification" />
       </list>
     </option>
